@@ -4,7 +4,6 @@ import os
 
 from dotenv import load_dotenv
 
-
 from telegram.ext import CommandHandler, Updater
 
 def start(update, context):
