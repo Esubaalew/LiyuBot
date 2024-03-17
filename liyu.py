@@ -40,3 +40,65 @@ def convert_amharic_number(number, number_type='General'):
     
     finally:
         driver.quit()
+
+
+def convert_to_geez(number):
+    url = 'https://www.metaappz.com/Geez_Numbers_Converter/Default.aspx'
+    
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')
+    
+    driver = webdriver.Chrome(options=chrome_options)
+    
+    try:
+        driver.get(url)
+        
+        input_box = driver.find_element(By.ID, 'article_InputTextBox1')
+        input_box.clear()
+        input_box.send_keys(str(number))
+        
+        convert_button = driver.find_element(By.ID, 'article_ConvertButton1')
+        convert_button.click()
+        
+        geez_result = WebDriverWait(driver, 10).until(
+            EC.visibility_of_element_located((By.ID, 'article_StatusLabel1'))
+        )
+        
+        geez_month = WebDriverWait(driver, 10).until(
+            EC.visibility_of_element_located((By.ID, 'article_StatusLabel2'))
+        )
+        
+        result = geez_result.text.strip() + " : " + geez_month.text.strip()
+        
+        return result
+        
+    finally:
+        driver.quit()
+
+
+def convert_from_geez(geez_number):
+    url = 'https://www.metaappz.com/Geez_Numbers_Converter/Default.aspx'
+    
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')
+    
+    driver = webdriver.Chrome(options=chrome_options)
+    
+    try:
+        driver.get(url)
+        
+        input_box = driver.find_element(By.ID, 'article_InputTextBox2')
+        input_box.clear()
+        input_box.send_keys(geez_number)
+        
+        convert_button = driver.find_element(By.ID, 'article_ConvertButton2')
+        convert_button.click()
+        
+        converted_number = WebDriverWait(driver, 10).until(
+            EC.visibility_of_element_located((By.ID, 'article_statusLabel3'))
+        )
+        
+        return converted_number.text.strip()
+        
+    finally:
+        driver.quit()
